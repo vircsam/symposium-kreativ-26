@@ -1,0 +1,8 @@
+
+{
+  "name": "EcoSphere: Sustainable City Explorer",
+  "description": "A 3D interactive scrollytelling experience exploring sustainable urban building systems, powered by Gemini AI for architectural insights.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
