@@ -5,8 +5,8 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { Wind, Sun, TreeDeciduous, Building2, Zap, ArrowDown, Rocket, Stars, Globe } from 'lucide-react';
 import { CityScene } from './components/CityScene';
 import { GeminiAssistant } from './components/GeminiAssistant';
+import { EventTimeline } from './components/EventTimeline';
 
-// App.tsx
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -25,9 +25,9 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-const Section = ({ children, className }: { children?: React.ReactNode, className?: string }) => (
+const Section = ({ children, className, contentClassName = "max-w-2xl" }: { children?: React.ReactNode, className?: string, contentClassName?: string }) => (
   <section className={`min-h-screen flex items-center px-6 md:px-24 relative z-10 py-20 ${className}`}>
-    <div className="max-w-2xl pointer-events-auto">
+    <div className={`${contentClassName} pointer-events-auto w-full`}>
       {children}
     </div>
   </section>
@@ -247,6 +247,22 @@ export default function App() {
 
           </div>
         </Section>
+
+        <Section className="justify-center" contentClassName="max-w-4xl">
+          <div className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-xl w-full">
+            <div className="flex flex-col items-center">
+              <h2 className="text-4xl sm:text-6xl font-black mb-12 text-center text-white tracking-tighter italic">
+                Event <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500">Timeline</span>
+              </h2>
+
+              {/* Center the timeline container */}
+              <div className="w-full">
+                <EventTimeline />
+              </div>
+            </div>
+          </div>
+        </Section>
+
 
       </div>
       <Section className="justify-center text-center mb-12 sm:mb-16">
