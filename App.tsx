@@ -7,11 +7,23 @@ import { CityScene } from './components/CityScene';
 import { GeminiAssistant } from './components/GeminiAssistant';
 
 // App.tsx
-const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent);
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
 
-<Canvas shadows dpr={[1, 2]}>
-  <CityScene scrollY={scrollY} isMobile={isMobile} />
-</Canvas>
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgentMobile = /Mobi|Android/i.test(navigator.userAgent);
+      const widthMobile = window.innerWidth < 768; // Standard tablet/mobile breakpoint
+      setIsMobile(userAgentMobile || widthMobile);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
 
 const Section = ({ children, className }: { children?: React.ReactNode, className?: string }) => (
   <section className={`min-h-screen flex items-center px-6 md:px-24 relative z-10 py-20 ${className}`}>
@@ -24,6 +36,7 @@ const Section = ({ children, className }: { children?: React.ReactNode, classNam
 export default function App() {
   const [scrollY, setScrollY] = useState(0);
   const { scrollYProgress } = useScroll();
+  const isMobile = useIsMobile();
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,

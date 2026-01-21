@@ -1,5 +1,5 @@
 
-import React, { useRef, useMemo, useEffect,useState} from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { PerspectiveCamera, Environment, Float, Text, MeshDistortMaterial, Stars, Sparkles, Ring } from '@react-three/drei';
 import * as THREE from 'three';
@@ -7,8 +7,8 @@ import * as THREE from 'three';
 const NeuralCoreAxis = ({
   x = 0,          // center horizontally
   y = 0,          // center vertically
-  levels = 8,     
-  baseSize = 19,   
+  levels = 8,
+  baseSize = 19,
 }: {
   x?: number
   y?: number
@@ -77,7 +77,7 @@ const NeuralCoreAxis = ({
   })
 
   return (
-    <group ref={groupRef} position={[x, y-4, 0]}>
+    <group ref={groupRef} position={[x, y - 4, 0]}>
       {/* CONNECTION LINES */}
       <group ref={linesRef}>
         {connections.map(([a, b], i) => (
@@ -178,7 +178,7 @@ const NeuralCoreAxis = ({
 
 const CosmicBuilding = ({ position, height, width, color, emissiveColor, scrollProgress, index }: any) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  
+
   // Each building starts below ground and rises based on scroll
   // Stagger the rising effect using the index
   const riseStart = (index * 0.01) % 0.5;
@@ -201,9 +201,9 @@ const CosmicBuilding = ({ position, height, width, color, emissiveColor, scrollP
   return (
     <mesh ref={meshRef} position={[position[0], animatedY, position[2]]}>
       <boxGeometry args={[width, height, width]} />
-      <meshStandardMaterial 
-        color={color} 
-        roughness={0} 
+      <meshStandardMaterial
+        color={color}
+        roughness={0}
         metalness={1}
         emissive={emissiveColor}
         emissiveIntensity={1}
@@ -211,10 +211,10 @@ const CosmicBuilding = ({ position, height, width, color, emissiveColor, scrollP
       {/* Visual Tech Details */}
       <mesh position={[0, 0, width / 2 + 0.02]}>
         <planeGeometry args={[width * 0.8, height * 0.9]} />
-        <meshStandardMaterial 
-          color="#22d3ee" 
-          transparent 
-          opacity={0.3 * currentRise} 
+        <meshStandardMaterial
+          color="#22d3ee"
+          transparent
+          opacity={0.3 * currentRise}
           emissive="#22d3ee"
           emissiveIntensity={2}
         />
@@ -227,7 +227,7 @@ export const CityScene = ({ scrollY, isMobile }: { scrollY: number; isMobile: bo
   const groupRef = useRef<THREE.Group>(null);
   const { camera } = useThree();
 
-  
+
   // Calculate global scroll progress (0 to 1)
   const maxScroll = typeof window !== 'undefined' ? document.body.scrollHeight - window.innerHeight : 1000;
   const scrollProgress = Math.min(1, scrollY / maxScroll);
@@ -244,7 +244,7 @@ export const CityScene = ({ scrollY, isMobile }: { scrollY: number; isMobile: bo
       const z = Math.sin(angle) * radius;
       const h = 4 + Math.random() * 12;
       const w = 1.2 + Math.random() * 1.8;
-      
+
       temp.push({
         id: i,
         position: [x, 0, z] as [number, number, number],
@@ -278,7 +278,7 @@ export const CityScene = ({ scrollY, isMobile }: { scrollY: number; isMobile: bo
     <>
       <PerspectiveCamera makeDefault fov={50} />
       <Environment preset="night" />
-      
+
       <Stars radius={150} depth={50} count={7000} factor={4} saturation={0.5} fade speed={2} />
       <Sparkles count={400} scale={60} size={3} speed={0.5} color="#ec4899" opacity={0.5} />
       <Sparkles count={400} scale={60} size={3} speed={0.4} color="#3b82f6" opacity={0.5} />
@@ -287,21 +287,21 @@ export const CityScene = ({ scrollY, isMobile }: { scrollY: number; isMobile: bo
       <pointLight position={[20, 20, 20]} intensity={2} color="#ec4899" />
       <pointLight position={[-20, 20, -20]} intensity={2} color="#3b82f6" />
       <group ref={groupRef}>
-  {/* Neural Network Core Axis */}
-  {!isMobile && <NeuralCoreAxis x={14} y={12} />}
+        {/* Neural Network Core Axis */}
+        {!isMobile && <NeuralCoreAxis x={14} y={12} />}
 
-  {/* City */}
-  {buildings.map((b) => (
-    <CosmicBuilding key={b.id} {...b} scrollProgress={scrollProgress} />
-  ))}
+        {/* City */}
+        {buildings.map((b) => (
+          <CosmicBuilding key={b.id} {...b} scrollProgress={scrollProgress} />
+        ))}
 
-  {/* Floor */}
-  ...
-</group>
+        {/* Floor */}
+        ...
+      </group>
 
       <group ref={groupRef}>
         {/* Sky Tower */}
-        
+
 
 
         {/* Business and Standard Buildings */}
@@ -312,38 +312,40 @@ export const CityScene = ({ scrollY, isMobile }: { scrollY: number; isMobile: bo
         {/* Floor - Infinite Dark Ocean */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.2, 0]}>
           <circleGeometry args={[100, 64]} />
-          <meshStandardMaterial 
-            color="#02020a" 
-            roughness={0.01} 
-            metalness={1} 
+          <meshStandardMaterial
+            color="#02020a"
+            roughness={0.01}
+            metalness={1}
           />
         </mesh>
 
         {/* Floating Abstract Tech Elements */}
-        <Float speed={4} rotationIntensity={1} floatIntensity={2}>
-          <group position={[15, 20, -10]}>
-             <mesh>
-              <dodecahedronGeometry args={[2, 0]} />
-              <meshStandardMaterial 
-                color="#ec4899" 
-                emissive="#ec4899" 
-                emissiveIntensity={2} 
-                wireframe 
-              />
-            </mesh>
-            <Text
-              position={[0, 3, 0]}
-              fontSize={1}
-              color="#ec4899"
-              anchorX="center"
-              anchorY="middle"
-            >
-              CORE-AXIS
-            </Text>
-          </group>
-        </Float>
+        {!isMobile && (
+          <Float speed={4} rotationIntensity={1} floatIntensity={2}>
+            <group position={[15, 20, -10]}>
+              <mesh>
+                <dodecahedronGeometry args={[2, 0]} />
+                <meshStandardMaterial
+                  color="#ec4899"
+                  emissive="#ec4899"
+                  emissiveIntensity={2}
+                  wireframe
+                />
+              </mesh>
+              <Text
+                position={[0, 3, 0]}
+                fontSize={1}
+                color="#ec4899"
+                anchorX="center"
+                anchorY="middle"
+              >
+                CORE-AXIS
+              </Text>
+            </group>
+          </Float>
+        )}
       </group>
-      
+
       {/* Cosmic Fog */}
       <fog attach="fog" args={['#020210', 30, 80]} />
     </>
