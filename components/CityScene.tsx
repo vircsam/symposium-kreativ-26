@@ -1,5 +1,5 @@
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect,useState} from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { PerspectiveCamera, Environment, Float, Text, MeshDistortMaterial, Stars, Sparkles, Ring } from '@react-three/drei';
 import * as THREE from 'three';
@@ -115,66 +115,66 @@ const NeuralCoreAxis = ({
 }
 
 
-const SkyTower = ({ height = 40 }) => {
-  const coreRef = useRef<THREE.Mesh>(null);
-  const ringRef = useRef<THREE.Mesh>(null);
+// const SkyTower = ({ height = 40 }) => {
+//   const coreRef = useRef<THREE.Mesh>(null);
+//   const ringRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
+//   useFrame((state) => {
+//     const t = state.clock.elapsedTime;
 
-    if (coreRef.current) {
-      coreRef.current.rotation.y += 0.01;
-      coreRef.current.scale.setScalar(1 + Math.sin(t * 2) * 0.05);
-    }
+//     if (coreRef.current) {
+//       coreRef.current.rotation.y += 0.01;
+//       coreRef.current.scale.setScalar(1 + Math.sin(t * 2) * 0.05);
+//     }
 
-    if (ringRef.current) {
-      ringRef.current.rotation.z = t * 0.6;
-    }
-  });
+//     if (ringRef.current) {
+//       ringRef.current.rotation.z = t * 0.6;
+//     }
+//   });
 
-  return (
-    <group position={[0, 10, 0]}>
-      {/* Core */}
-      <mesh ref={coreRef}>
-        <icosahedronGeometry args={[2.2, 1]} />
-        <meshStandardMaterial
-          color="#020617"
-          emissive="#ec4899"
-          emissiveIntensity={3}
-          metalness={1}
-          roughness={0}
-        />
-      </mesh>
+//   return (
+//     <group position={[0, 10, 0]}>
+//       {/* Core */}
+//       <mesh ref={coreRef}>
+//         <icosahedronGeometry args={[2.2, 1]} />
+//         <meshStandardMaterial
+//           color="#020617"
+//           emissive="#ec4899"
+//           emissiveIntensity={3}
+//           metalness={1}
+//           roughness={0}
+//         />
+//       </mesh>
 
-      {/* Orbital Ring */}
-      <mesh ref={ringRef} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[5, 0.08, 16, 100]} />
-        <meshStandardMaterial
-          color="#3b82f6"
-          emissive="#3b82f6"
-          emissiveIntensity={5}
-        />
-      </mesh>
+//       {/* Orbital Ring */}
+//       <mesh ref={ringRef} rotation={[Math.PI / 2, 0, 0]}>
+//         <torusGeometry args={[5, 0.08, 16, 100]} />
+//         <meshStandardMaterial
+//           color="#3b82f6"
+//           emissive="#3b82f6"
+//           emissiveIntensity={5}
+//         />
+//       </mesh>
 
-      {/* Energy Sparkles */}
-      <Sparkles
-        count={300}
-        scale={12}
-        size={3}
-        speed={0.6}
-        color="#ec4899"
-        opacity={0.8}
-      />
+//       {/* Energy Sparkles */}
+//       <Sparkles
+//         count={300}
+//         scale={12}
+//         size={3}
+//         speed={0.6}
+//         color="#ec4899"
+//         opacity={0.8}
+//       />
 
-      {/* Glow Light */}
-      <pointLight
-        intensity={6}
-        distance={50}
-        color="#ec4899"
-      />
-    </group>
-  );
-};
+//       {/* Glow Light */}
+//       <pointLight
+//         intensity={6}
+//         distance={50}
+//         color="#ec4899"
+//       />
+//     </group>
+//   );
+// };
 
 const CosmicBuilding = ({ position, height, width, color, emissiveColor, scrollProgress, index }: any) => {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -223,9 +223,10 @@ const CosmicBuilding = ({ position, height, width, color, emissiveColor, scrollP
   );
 };
 
-export const CityScene = ({ scrollY }: { scrollY: number }) => {
+export const CityScene = ({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) => {
   const groupRef = useRef<THREE.Group>(null);
   const { camera } = useThree();
+
   
   // Calculate global scroll progress (0 to 1)
   const maxScroll = typeof window !== 'undefined' ? document.body.scrollHeight - window.innerHeight : 1000;
@@ -287,7 +288,7 @@ export const CityScene = ({ scrollY }: { scrollY: number }) => {
       <pointLight position={[-20, 20, -20]} intensity={2} color="#3b82f6" />
       <group ref={groupRef}>
   {/* Neural Network Core Axis */}
-  <NeuralCoreAxis x={14} y={12} />
+  {!isMobile && <NeuralCoreAxis x={14} y={12} />}
 
   {/* City */}
   {buildings.map((b) => (
