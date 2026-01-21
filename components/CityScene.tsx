@@ -4,52 +4,174 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { PerspectiveCamera, Environment, Float, Text, MeshDistortMaterial, Stars, Sparkles, Ring } from '@react-three/drei';
 import * as THREE from 'three';
 
+const NeuralCoreAxis = ({
+  x = 0,          // center horizontally
+  y = 0,          // center vertically
+  levels = 8,     
+  baseSize = 19,   
+}: {
+  x?: number
+  y?: number
+  levels?: number
+  baseSize?: number
+}) => {
+  const groupRef = useRef<THREE.Group>(null)
+  const nodesRef = useRef<THREE.Group>(null)
+  const linesRef = useRef<THREE.Group>(null)
+
+  /* ======================== */
+  /* PYRAMID NODE POSITIONS */
+  /* ======================== */
+  const nodePositions = useMemo(() => {
+    const pts: THREE.Vector3[] = []
+
+    const triangleVertices = [
+      new THREE.Vector3(-0.5, 0, -Math.sqrt(3) / 6),
+      new THREE.Vector3(0.5, 0, -Math.sqrt(3) / 6),
+      new THREE.Vector3(0, 0, Math.sqrt(3) / 3),
+    ]
+
+    const totalHeight = levels * 1.8
+
+    for (let l = 0; l < levels; l++) {
+      const yOffset = l * 1.2 - totalHeight / 2  // shift downward to center
+      const scale = ((levels - l) / levels) * baseSize
+
+      triangleVertices.forEach(v => {
+        pts.push(new THREE.Vector3(v.x * scale, yOffset, v.z * scale))
+      })
+    }
+
+    // Tip of pyramid
+    pts.push(new THREE.Vector3(0, totalHeight / 2, 0))
+
+    return pts
+  }, [levels, baseSize])
+
+  /* ======================== */
+  /* NEURAL CONNECTIONS */
+  /* ======================== */
+  const connections = useMemo(() => {
+    const pairs: [THREE.Vector3, THREE.Vector3][] = []
+
+    nodePositions.forEach((a, i) => {
+      nodePositions.forEach((b, j) => {
+        if (i === j) return
+        if (a.distanceTo(b) < baseSize * 1.2) {
+          pairs.push([a, b])
+        }
+      })
+    })
+
+    return pairs
+  }, [nodePositions, baseSize])
+
+  /* ======================== */
+  /* ANIMATION */
+  /* ======================== */
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime
+    if (groupRef.current) groupRef.current.rotation.y = t * 0.15
+    if (nodesRef.current) nodesRef.current.rotation.y = t * 0.25
+    if (linesRef.current) linesRef.current.rotation.y = t * 0.25
+  })
+
+  return (
+    <group ref={groupRef} position={[x, y-4, 0]}>
+      {/* CONNECTION LINES */}
+      <group ref={linesRef}>
+        {connections.map(([a, b], i) => (
+          <line key={i} geometry={new THREE.BufferGeometry().setFromPoints([a, b])}>
+            <lineBasicMaterial
+              color={i % 2 === 0 ? '#3b82f6' : '#ec4899'}
+              transparent
+              opacity={0.45}
+            />
+          </line>
+        ))}
+      </group>
+
+      {/* NEURAL NODES */}
+      <group ref={nodesRef}>
+        {nodePositions.map((pos, i) => (
+          <mesh key={i} position={pos}>
+            <sphereGeometry args={[0.3, 16, 16]} />
+            <meshStandardMaterial
+              color="#020617"
+              emissive={i % 2 === 0 ? '#22d3ee' : '#ec4899'}
+              emissiveIntensity={3}
+              metalness={1}
+              roughness={0}
+            />
+          </mesh>
+        ))}
+      </group>
+
+      {/* LIGHTS */}
+      <pointLight intensity={7} distance={50} color="#22d3ee" />
+      <pointLight intensity={5} distance={40} color="#ec4899" />
+    </group>
+  )
+}
+
+
 const SkyTower = ({ height = 40 }) => {
-  const ring1Ref = useRef<THREE.Mesh>(null);
-  const ring2Ref = useRef<THREE.Mesh>(null);
-  const ring3Ref = useRef<THREE.Mesh>(null);
+  const coreRef = useRef<THREE.Mesh>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
-    const time = state.clock.elapsedTime;
-    if (ring1Ref.current) ring1Ref.current.rotation.z = time * 0.5;
-    if (ring2Ref.current) ring2Ref.current.rotation.z = -time * 0.8;
-    if (ring3Ref.current) ring3Ref.current.rotation.z = time * 0.3;
+    const t = state.clock.elapsedTime;
+
+    if (coreRef.current) {
+      coreRef.current.rotation.y += 0.01;
+      coreRef.current.scale.setScalar(1 + Math.sin(t * 2) * 0.05);
+    }
+
+    if (ringRef.current) {
+      ringRef.current.rotation.z = t * 0.6;
+    }
   });
 
   return (
-    <group position={[0, 0, 0]}>
-      {/* Central Spire */}
-      <mesh position={[0, height / 2, 0]}>
-        <cylinderGeometry args={[0.2, 0.8, height, 8]} />
-        <meshStandardMaterial 
-          color="#1e1b4b" 
-          emissive="#ec4899" 
-          emissiveIntensity={2} 
-          metalness={1} 
-          roughness={0} 
+    <group position={[0, 10, 0]}>
+      {/* Core */}
+      <mesh ref={coreRef}>
+        <icosahedronGeometry args={[2.2, 1]} />
+        <meshStandardMaterial
+          color="#020617"
+          emissive="#ec4899"
+          emissiveIntensity={3}
+          metalness={1}
+          roughness={0}
         />
       </mesh>
 
-      {/* Rotating Cosmic Rings */}
-      <mesh ref={ring1Ref} position={[0, height * 0.4, 0]} rotation={[Math.PI / 2.2, 0, 0]}>
-        <torusGeometry args={[4, 0.05, 16, 100]} />
-        <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={5} />
-      </mesh>
-      <mesh ref={ring2Ref} position={[0, height * 0.6, 0]} rotation={[Math.PI / 1.8, 0, 0]}>
-        <torusGeometry args={[3, 0.04, 16, 100]} />
-        <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={5} />
-      </mesh>
-      <mesh ref={ring3Ref} position={[0, height * 0.8, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2, 0.03, 16, 100]} />
-        <meshStandardMaterial color="#8b5cf6" emissive="#8b5cf6" emissiveIntensity={5} />
+      {/* Orbital Ring */}
+      <mesh ref={ringRef} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[5, 0.08, 16, 100]} />
+        <meshStandardMaterial
+          color="#3b82f6"
+          emissive="#3b82f6"
+          emissiveIntensity={5}
+        />
       </mesh>
 
-      {/* Top Beacon */}
-      <pointLight position={[0, height + 1, 0]} intensity={10} color="#ec4899" distance={50} />
-      <mesh position={[0, height, 0]}>
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={10} />
-      </mesh>
+      {/* Energy Sparkles */}
+      <Sparkles
+        count={300}
+        scale={12}
+        size={3}
+        speed={0.6}
+        color="#ec4899"
+        opacity={0.8}
+      />
+
+      {/* Glow Light */}
+      <pointLight
+        intensity={6}
+        distance={50}
+        color="#ec4899"
+      />
     </group>
   );
 };
@@ -163,10 +285,23 @@ export const CityScene = ({ scrollY }: { scrollY: number }) => {
       <ambientLight intensity={0.05} />
       <pointLight position={[20, 20, 20]} intensity={2} color="#ec4899" />
       <pointLight position={[-20, 20, -20]} intensity={2} color="#3b82f6" />
+      <group ref={groupRef}>
+  {/* Neural Network Core Axis */}
+  <NeuralCoreAxis x={14} y={12} />
+
+  {/* City */}
+  {buildings.map((b) => (
+    <CosmicBuilding key={b.id} {...b} scrollProgress={scrollProgress} />
+  ))}
+
+  {/* Floor */}
+  ...
+</group>
 
       <group ref={groupRef}>
         {/* Sky Tower */}
-        <SkyTower height={45} />
+        
+
 
         {/* Business and Standard Buildings */}
         {buildings.map((b) => (
