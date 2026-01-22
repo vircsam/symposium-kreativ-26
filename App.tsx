@@ -315,8 +315,11 @@ export default function App() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
             {[
               { name: "Sangaresh Waran", role: "Overall Coordinator", location: "+91 8148117181" },
+              { name: "Deepthikaa N", role: "Overall Coordinator", location: "+91 6379279629" },
               { name: "Mohammed Aflal", role: "Event Coordinator", location: "+91 9751110206" },
               { name: "Meerthika S R", role: "Event Coordinator", location: "+91 9095111965" },
+              { name: "Muthu Muhilan", role: "Event Coordinator", location: "+91 8608978866" },
+              { name: "Narmadha D", role: "Event Coordinator", location: "+91 7695937272" },
             ].map((contact, i) => (
               <div
                 key={i}
