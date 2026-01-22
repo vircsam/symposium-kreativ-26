@@ -98,10 +98,30 @@ export default function App() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-7xl md:text-9xl font-black mb-6 leading-none text-white tracking-tighter">
-              Kreativ<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 italic">2026</span>
-            </h1>
+            <h1 className="text-7xl md:text-9xl font-black mb-6 leading-none tracking-tighter text-white">
+  <span
+    className="
+      inline-block
+      text-[28px] md:text-[28px]
+      font-black
+      uppercase
+      tracking-[0.6em]
+      mb-3
+      text-pink-500
+    "
+  >
+    Track 2
+  </span>
+
+  <div>Kreativ</div>
+
+  <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 italic">
+    2026
+  </span>
+</h1>
+
+
+
             <p className="text-lg text-blue-100/40 max-w-md mb-10 leading-relaxed font-light italic">
               Flagship Event of Kamaraj College of Engineering and Technology by Department of Computer Science & Engineering.
             </p>
@@ -136,7 +156,7 @@ export default function App() {
     to-blue-500
   "
         >
-          Events
+          Track 2 Events
         </h1>
         <h1
           className="
@@ -179,7 +199,7 @@ export default function App() {
               </h2>
               <p className="text-blue-100/50 text-lg font-bold italic mb-2">Technical</p>
               <p className="text-blue-100/50 text-lg font-light">
-                From concept to code — a rapid assembly line for building market-ready products.
+                From concept to production — a rapid assembly line for building market-ready products.
               </p>
               <button className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all shadow-md">
                 Know More
@@ -201,7 +221,7 @@ export default function App() {
                 <Building2 className="w-8 h-8 text-blue-500" />
               </div>
               <h2 className="text-3xl sm:text-5xl font-black mb-4 uppercase text-white tracking-tighter">
-                Marketing Mania
+                Marketo Mania
               </h2>
               <p className="text-blue-100/50 text-lg font-bold italic mb-2">Non-Technical</p>
               <p className="text-blue-100/50 text-lg font-light">
