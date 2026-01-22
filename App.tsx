@@ -243,24 +243,42 @@ export default function App() {
             </h2>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+  {[
+    { label: '', val: '13', icon: Wind },
+    { label: '', val: '02', icon: Zap },
+    { label: '', val: '2026', icon: Building2 }
+  ].map((stat, i) => (
+    <div
+      key={i}
+      className="bg-gray-900 rounded-2xl p-6 flex flex-col items-center justify-center shadow-lg hover:shadow-pink-500/50 transition-all"
+    >
+      <stat.icon className="w-8 h-8 mb-4 text-pink-500" />
+      <div className="text-3xl font-black text-white mb-1 tracking-tight">{stat.val}</div>
+      <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">{stat.label}</div>
+    </div>
+  ))}
+</div> {/* ← GRID ENDS HERE */}
 
-              {[
-                { label: '', val: '13', icon: Wind },
-                { label: '', val: '02', icon: Zap },
-                { label: '', val: '2026', icon: Building2 }
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="bg-gray-900 rounded-2xl p-6 flex flex-col items-center justify-center shadow-lg hover:shadow-pink-500/50 transition-all"
-                >
-                  <stat.icon className="w-8 h-8 mb-4 text-pink-500" />
-                  <div className="text-3xl font-black text-white mb-1 tracking-tight">{stat.val}</div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">{stat.label}</div>
-                </div>
-              ))}
+{/* Venue — responsive layout */}
+<div className="flex justify-center">
+  <div
+    className="
+      flex flex-col sm:flex-row
+      items-center
+      gap-2 sm:gap-3
+      text-base sm:text-lg md:text-xl
+      font-black uppercase tracking-[0.3em]
+      text-blue-100/40
+    "
+  >
+    <span className="text-pink-500">Venue:</span>
+    <span className="text-white">Edusat Hall</span>
+  </div>
+</div>
 
-            </div>
+
+
             <button className="px-12 py-6 bg-gradient-to-r from-pink-600 to-blue-600 rounded-full font-black uppercase text-xs tracking-[0.3em] pointer-events-auto shadow-[0_0_40px_rgba(139,92,246,0.3)]">
               <span className="text-white">Download the Rule book</span>
             </button>
