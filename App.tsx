@@ -221,7 +221,7 @@ export default function App() {
                 <Building2 className="w-8 h-8 text-blue-500" />
               </div>
               <h2 className="text-3xl sm:text-5xl font-black mb-4 uppercase text-white tracking-tighter">
-                Marketo Mania
+                Market-o-Mania
               </h2>
               <p className="text-blue-100/50 text-lg font-bold italic mb-2">Non-Technical</p>
               <p className="text-blue-100/50 text-lg font-light">
