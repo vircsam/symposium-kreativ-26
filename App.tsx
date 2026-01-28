@@ -110,7 +110,7 @@ export default function App() {
       text-pink-500
     "
   >
-    Track 2
+    Track Beta
   </span>
 
   <div>Kreativ</div>
@@ -156,7 +156,7 @@ export default function App() {
     to-blue-500
   "
         >
-          Track 2 Events
+          Track Beta Events
         </h1>
         <h1
           className="
@@ -202,7 +202,13 @@ export default function App() {
                 From concept to production — a rapid assembly line for building market-ready products.
               </p>
               <button className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all shadow-md">
-                Know More
+              <a
+              href="/technical.pdf"
+              download
+              className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-md inline-block"
+            >
+              Know More
+            </a>
               </button>
             </div>
 
@@ -228,7 +234,14 @@ export default function App() {
                 A tactical arena where perception, positioning, and persuasion decide market dominance.
               </p>
               <button className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-md">
-                Know More
+              <a
+              href="/nontechnical.pdf"
+              download
+              className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-md inline-block"
+            >
+              Know More
+            </a>
+
               </button>
             </div>
           </motion.div>
@@ -280,7 +293,14 @@ export default function App() {
 
 
             <button className="px-12 py-6 bg-gradient-to-r from-pink-600 to-blue-600 rounded-full font-black uppercase text-xs tracking-[0.3em] pointer-events-auto shadow-[0_0_40px_rgba(139,92,246,0.3)]">
-              <span className="text-white">Download the Rule book</span>
+            <a
+            href="/rulebook.pdf"
+            download
+            className="px-12 py-6 bg-gradient-to-r from-pink-600 to-blue-600 rounded-full font-black uppercase text-xs tracking-[0.3em] pointer-events-auto shadow-[0_0_40px_rgba(139,92,246,0.3)] inline-block"
+          >
+            <span className="text-white">Download the Rule Book</span>
+          </a>
+
             </button>
 
           </div>
