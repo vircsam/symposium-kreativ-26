@@ -110,7 +110,7 @@ export default function App() {
       text-pink-500
     "
   >
-    Track Beta
+    Tech Beta
   </span>
 
   <div>Kreativ</div>
@@ -159,7 +159,7 @@ export default function App() {
     to-blue-500
   "
         >
-          Track Beta Events
+          Tech Beta Events
         </h1>
         <h1
           className="
@@ -208,8 +208,7 @@ export default function App() {
               <a
               href="/technical.pdf"
               download
-              className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-md inline-block"
-            >
+              >
               Know More
             </a>
               </button>
@@ -240,8 +239,7 @@ export default function App() {
               <a
               href="/nontechnical.pdf"
               download
-              className="mt-6 bg-white text-black px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-md inline-block"
-            >
+              >
               Know More
             </a>
 
@@ -299,8 +297,7 @@ export default function App() {
             <a
             href="/rulebook.pdf"
             download
-            className="px-12 py-6 bg-gradient-to-r from-pink-600 to-blue-600 rounded-full font-black uppercase text-xs tracking-[0.3em] pointer-events-auto shadow-[0_0_40px_rgba(139,92,246,0.3)] inline-block"
-          >
+            >
             <span className="text-white">Download the Rule Book</span>
           </a>
 
