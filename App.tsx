@@ -127,9 +127,12 @@ export default function App() {
             </p>
 
             <div className="flex gap-4 pointer-events-auto">
-              <button className="bg-white text-black px-10 py-4 rounded-full font-black uppercase text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all shadow-xl">
-                Register Now
-              </button>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIGkP27scvMTiVZrldIJym5Wb7065NL_Vq4OhQUrSSdG2lrw/viewform">
+            <button className="bg-white text-black px-10 py-4 rounded-full font-black uppercase text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all shadow-xl">
+              Register Now
+            </button>
+          </a>
+
             </div>
             <motion.div
               animate={{ y: [0, 8, 0] }}
